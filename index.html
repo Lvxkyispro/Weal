@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0809">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="A love letter in twenty-three frames.">
+  <title>Admirin’ You</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="is-loading">
+  <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Loader -->
+  <div class="loader" id="loader" role="dialog" aria-modal="true" aria-label="Loading">
+    <div class="loader__row">
+      <span class="label">A small something</span>
+      <span class="label loader__count" id="loaderCount" aria-live="polite">000</span>
+    </div>
+    <div class="loader__center">
+      <p class="loader__title" aria-hidden="true"><span>Admirin’</span> <em>You</em></p>
+      <button class="begin" id="begin" type="button" disabled>
+        <svg class="begin__ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="58" />
+          <circle class="begin__progress" id="loaderRing" cx="60" cy="60" r="58" pathLength="1" />
+        </svg>
+        <span class="begin__text">Begin</span>
+      </button>
+      <p class="label loader__hint">Best with sound on</p>
+    </div>
+    <div class="loader__row">
+      <span class="label">For you</span>
+      <span class="label">From me</span>
+    </div>
+  </div>
+
+  <!-- Heads-up display -->
+  <header class="hud" id="hud">
+    <span class="label hud__brand">Admirin’ You</span>
+    <span class="label hud__count" aria-hidden="true">
+      <span class="hud__roll"><span id="hudNum">01</span></span>
+      <span class="hud__total">/ 23</span>
+    </span>
+    <span class="hud__bar" aria-hidden="true"><i id="hudBar"></i></span>
+  </header>
+
+  <main id="story">
+    <!-- Hero -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <div class="hero__inner">
+        <p class="label hero__over"><span class="mask"><span>A love letter in twenty-three frames</span></span></p>
+        <h1 class="hero__title">
+          <span class="hero__line" data-split>Admirin’</span>
+          <span class="hero__line hero__line--em" data-split>You</span>
+        </h1>
+        <p class="hero__sub"><span class="mask"><span>Twenty-three photographs. Twenty-three questionable pickup lines. One very lucky me.</span></span></p>
+      </div>
+      <div class="cue" aria-hidden="true">
+        <span class="label">Scroll slowly</span>
+        <span class="cue__line"><i></i></span>
+      </div>
+    </section>
+
+    <!-- Prelude -->
+    <section class="prelude" id="prelude" aria-label="Prelude">
+      <div class="prelude__stage">
+        <p class="prelude__text" id="preludeText">I tried to choose my favourite photo of you. It did not go well. So here is every single one, each with a line I would never have the courage to say out loud.</p>
+      </div>
+    </section>
+
+    <!-- The reel: every photo lives on one sticky stage -->
+    <section class="reel" id="reel" aria-label="Photographs">
+      <div class="reel__stage" id="reelStage"></div>
+    </section>
+
+    <!-- Finale -->
+    <section class="finale" id="finale" aria-label="Finale">
+      <div class="finale__copy" id="finaleCopy">
+        <p class="label finale__over"><span class="mask"><span>Twenty-three frames later</span></span></p>
+        <h2 class="finale__title">
+          <span class="mask"><span>Still</span></span>
+          <span class="mask"><span><em>admirin’ you.</em></span></span>
+        </h2>
+        <p class="finale__sub"><span class="mask"><span>Every single day, in every single filter.</span></span></p>
+      </div>
+    </section>
+
+    <section class="outro" id="outro" aria-label="All photographs">
+      <p class="label outro__hint">Drag to spin, tap to open</p>
+      <div class="ring" id="ring">
+        <div class="ring__spin" id="ringSpin"></div>
+      </div>
+      <button class="pill" id="replay" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.34-5.66M4 4v4h4" /></svg>
+        <span>Watch it again</span>
+      </button>
+      <p class="label outro__sign">Made by me, for you</p>
+    </section>
+  </main>
+
+  <!-- Music dock -->
+  <div class="dock" id="dock">
+    <button class="dock__btn" id="playBtn" type="button" aria-label="Play song" aria-pressed="false">
+      <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" /></svg>
+    </button>
+    <div class="dock__meta">
+      <span class="dock__title" id="songTitle">Admirin’ You</span>
+      <span class="dock__artist" id="songArtist">Karan Aujla</span>
+    </div>
+    <div class="dock__bars" id="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+    <div class="lightbox__backdrop" data-close></div>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightboxImg" alt="">
+      <figcaption class="lightbox__caption">
+        <span class="label" id="lightboxNum"></span>
+        <span id="lightboxLine"></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox__close" type="button" aria-label="Close photo" data-close>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </div>
+
+  <div class="curtain" id="curtain" aria-hidden="true"></div>
+
+  <audio id="song" preload="none" loop></audio>
+
+  <noscript><p class="noscript">This page needs JavaScript to tell its story.</p></noscript>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
